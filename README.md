@@ -1,6 +1,7 @@
 # 📘 **ConnectX Reinforcement Learning Agents — Project README**
 
 > Kaggle ConnectX 환경을 기반으로 여러 강화학습 기법(One-step, N-step, DQN 등)을 구현하고 비교하여, 가장 우수한 전략을 찾는 프로젝트입니다.
+> 
 > 프로젝트 인원 : 이가영, 이현지
 
 ---
@@ -23,7 +24,8 @@
 📦 20205_RL_Project
  ┣ 📂 src
  │   ┣ one_step_lookahead.py        # One-Step 에이전트 코드
- │   ┣ minimax_agent.py             # Minimax 또는 Hybrid Agent
+ |   ┣ n_step_lookahead.py          # N-Step 에이전트 코드 (alpha-beta pruning 없는 버전)
+ │   ┣ minimax.py                   # Alpha-Beta 적용 Minimax 코드(예정)
  │   ┣ agents.txt                   # 자동 제출 생성용 파일 목록
  │   ┣ make_submission.py           # submission 생성 스크립트
  ┗ 📄 README.md                     # 프로젝트 문서
@@ -35,9 +37,15 @@
 
 ### 1. **One-Step Lookahead (완료)**
 
+* 바로 앞의 한 수만 바라보는 lookahead 방식
 * heuristic 기반의 가장 단순한 평가 방식
 * 빠르고 안정적이며 baseline으로 활용 가능
-* 완전한 리팩터링 & Kaggle 호환 완료
+
+### 2. **N-Step Lookahead (완료)**
+
+* N수 앞까지 모든 가능한 수를 전부 탐색하는 순수 Minimax 기반 lookahead 방식
+* 내 턴 = 최대화(Max), 상대 턴 = 최소화(Min) 하는 방향으로 구현한 구조
+
 
 
 각 에이전트는 독립된 `.py` 파일로 관리되어
