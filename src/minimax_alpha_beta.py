@@ -168,7 +168,7 @@ def minimax_alpha_beta(grid, cur_player, me, depth, alpha, beta, cfg):
 
 # 4) 최종 에이전트 N-step Alpha-Beta Agent -------------------------------------------------------------
 
-def alpha_beta_agent(obs, cfg):
+def my_agent(obs, cfg):
     """
     N-step(깊이 MAX_DEPTH) Minimax + Alpha-Beta Pruning 기반 에이전트.
     - 가능한 모든 수에 대해 탐색을 수행하고
