@@ -1,0 +1,2 @@
+# Kaggle Environments (문제가 있는 의존성 제외하고 설치)
+kaggle-environments>=1.8.0

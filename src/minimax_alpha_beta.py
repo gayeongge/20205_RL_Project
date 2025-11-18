@@ -8,9 +8,9 @@ MAX_DEPTH = 4  # 3~5 정도로 실험해보면서 조정 추천
 PATTERN_SCORE = {
     "my_4": 1_000_000,
     "my_3": 10_000,
-    "my_2": 200,
-    "opp_3": -80_000,
-    "opp_2": -500,
+    "my_2": 100,
+    "opp_3": -50_000,
+    "opp_2": -200,
 }
 
 
@@ -217,12 +217,12 @@ if __name__ == "__main__":
 
     print("=== 테스트 1: 랜덤 에이전트 vs my_agent ===")
     env.reset()
-    env.run(["random", alpha_beta_agent])
+    env.run(["random", my_agent])
     print(env.render(mode="ansi"))
     print()
 
     print("=== 테스트 2: my_agent vs 랜덤 에이전트 ===")
     env.reset()
-    env.run([alpha_beta_agent, "random"])
+    env.run([my_agent, "random"])
     print(env.render(mode="ansi"))
     print()
