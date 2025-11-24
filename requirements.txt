@@ -13,6 +13,7 @@ gymnasium>=0.26.0
 
 # 추가 의존성
 requests>=2.25.0
+pokerkit
 
 # 선택사항: Jupyter 노트북 사용시
 # jupyter>=1.0.0
