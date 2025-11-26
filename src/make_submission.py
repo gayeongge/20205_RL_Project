@@ -33,11 +33,12 @@ def read_from_txt():
 
 def create_submission(src_path: Path):
     """src_path 기반으로 submission_*.py 생성"""
+    src_path_parent = src_path.parent /  f"submission_files"
     if not src_path.exists():
         print(f"[ERROR] 파일 없음: {src_path}")
         return
 
-    dst_path = src_path.parent / f"submission_files/submission_{src_path.stem}.py"
+    dst_path = src_path_parent / f"submission_{src_path.stem}.py"
 
     code = src_path.read_text(encoding="utf-8")
     dst_path.write_text(code + WRAPPER, encoding="utf-8")
