@@ -148,3 +148,22 @@ def agent(observation, configuration):
 * ⏳ N-step Lookahead
 * ⏳ DQN Training Loop 구축
 * ⏳ Leaderboard 기반 자동 제출 파이프라인
+
+---
+
+## 🧾 Submission 생성 가이드
+
+1) `src/agents.txt`에 대상 에이전트 파일을 줄 단위로 적습니다. 예시:  
+   - 파일명만: `mtd_f_negamax_nf.py` (src 이하를 검색해 첫 매칭 사용)  
+   - 상대경로: `MTDF/mtd_f_negamax_nf.py`  
+   - 절대경로도 허용
+
+2) 실행  
+   ```bash
+   python src/make_submission.py
+   ```
+
+3) 생성 결과  
+   - 각 소스 파일과 같은 폴더에 `submission_<원본>.py`가 만들어집니다.  
+   - 후보가 여러 개면 첫 경로를 사용하며 경고를 출력합니다.  
+   - agents.txt가 비었거나 파일을 찾지 못하면 에러 메시지를 출력합니다.
