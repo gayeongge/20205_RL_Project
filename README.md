@@ -18,38 +18,42 @@
 
 ---
 
-## 📁 **프로젝트 구조**
+## 📁 **프로젝트 구조 (.py 중심)**
 
 ```
-📦 20205_RL_Project
+📦 2025_RL_Project
+ ┣ 📂 kaggle_commit
  ┣ 📂 src
- │   ┣ one_step_lookahead.py        # One-Step 에이전트 코드
- |   ┣ n_step_lookahead.py          # N-Step 에이전트 코드 (alpha-beta pruning 없는 버전)
- │   ┣ minimax.py                   # Alpha-Beta 적용 Minimax 코드(예정)
- │   ┣ agents.txt                   # 자동 제출 생성용 파일 목록
- │   ┣ make_submission.py           # submission 생성 스크립트
- ┗ 📄 README.md                     # 프로젝트 문서
+ │   ┣ 📂 ALphazeor     # AlphaZero 계열
+ │   │   ┣ alphazero_edu.py, alphazero_edu_2~5.py
+ │   │   ┗ submission_alphazero_edu_*.py
+ │   ┣ 📂 DQN           # DQN 계열
+ │   │   ┣ DQN.py, drl_double.py, drl_dqn.py, drl_dueling.py
+ │   │   ┗ submission_DQN.py, submission_drl_dqn.py
+ │   ┣ 📂 MTDF          # MTD(f)/Negamax 계열
+ │   │   ┣ mtd_f.py, mtd_f_negamax.py, mtd_f_negamax_nf.py
+ │   │   ┗ submission_mtd_f_negamax*.py
+ │   ┣ 📂 Normal        # 기본 탐색/헬퍼
+ │   │   ┣ one_step_lookahead.py, n_step_lookahead.py
+ │   │   ┣ minimax_alpha_beta.py
+ │   │   ┗ submission_minimax_alpha_beta.py, submission.py
+ │   ┣ agents.txt       # 자동 제출 생성용 파일 목록
+ │   ┗ make_submission.py  # submission 생성 스크립트 (경로 검색)
+ ┗ 📄 README.md
 ```
 
 ---
 
-## 🧠 **에이전트 종류**
+## 🧠 **에이전트 종류 (.py 기준)**
 
-### 1. **One-Step Lookahead (완료)**
+- One-Step / N-Step: `src/Normal/one_step_lookahead.py`, `src/Normal/n_step_lookahead.py`
+- Minimax/Alpha-Beta: `src/Normal/minimax_alpha_beta.py`
+- DQN 계열: `src/DQN/DQN.py`, `src/DQN/drl_double.py`, `src/DQN/drl_dqn.py`, `src/DQN/drl_dueling.py`
+- AlphaZero 계열: `src/ALphazeor/alphazero_edu*.py`
+- MTD(f) 계열: `src/MTDF/mtd_f*.py`
+- 제출용 생성본: 각 폴더의 `submission_*.py` (make_submission.py로 자동 생성)
 
-* 바로 앞의 한 수만 바라보는 lookahead 방식
-* heuristic 기반의 가장 단순한 평가 방식
-* 빠르고 안정적이며 baseline으로 활용 가능
-
-### 2. **N-Step Lookahead (완료)**
-
-* N수 앞까지 모든 가능한 수를 전부 탐색하는 순수 Minimax 기반 lookahead 방식
-* 내 턴 = 최대화(Max), 상대 턴 = 최소화(Min) 하는 방향으로 구현한 구조
-
-
-
-각 에이전트는 독립된 `.py` 파일로 관리되어
-한 파일에 한 Agent가 들어있습니다.
+각 에이전트는 독립된 `.py` 파일로 관리되어 한 파일에 한 Agent가 들어있습니다.
 
 ---
 
@@ -77,47 +81,26 @@ ANSI 렌더링에서 `1` 또는 `2`가 내 돌입니다.
 
 ---
 
-## ⚙️ **Submission 파일 자동 생성 시스템**
+## 🛠️ Submission 파일 자동 생성
 
-### 1. 에이전트 목록을 작성
+`src/make_submission.py`가 `agents.txt`에 적힌 파일을 찾아 같은 폴더에 `submission_<원본>.py`를 생성합니다. 폴더 구조가 변해도 파일명을 검색해 경로를 해석합니다.
 
-`agents.txt` 사용
+1) `src/agents.txt` 작성  
+   - 파일명만: `mtd_f_negamax_nf.py` (src 이하에서 첫 매칭 사용)  
+   - 상대경로: `MTDF/mtd_f_negamax_nf.py`  
+   - 절대경로도 허용  
+   - 확장자가 없으면 `.py`로 처리
 
-#### ✔ agents.txt 사용
+2) 실행 (리포지토리 루트에서)  
+   ```bash
+   python src/make_submission.py
+   ```
 
-```
-one_step_lookahead.py
-n_step_agent.py
-dqn_agent.py
-```
-
----
-
-### 2. submission 파일 생성
-
-VSCode 터미널에서:
-
-```
-cd src
-python make_submission.py
-```
-
-그러면 다음이 자동 생성됩니다:
-
-```
-submission_one_step_lookahead.py
-submission_n_step_agent.py
-submission_dqn_agent.py
-```
-
-각 파일은 Kaggle 제출 규격에 맞는:
-
-```
-def agent(observation, configuration):
-    return my_agent(observation, configuration)
-```
-
-래퍼가 자동으로 포함됩니다.
+3) 결과/로그  
+   - 각 소스 파일과 같은 폴더에 `submission_<원본>.py`가 만들어집니다.  
+   - 후보가 여러 개면 첫 경로를 사용하며 경고를 출력합니다.  
+   - agents.txt가 비었거나 파일을 찾지 못하면 에러 메시지를 출력합니다.  
+   - 생성된 파일은 Kaggle 제출 규격의 `agent` 함수 래퍼가 자동으로 덧붙습니다.
 
 ---
 
@@ -148,22 +131,3 @@ def agent(observation, configuration):
 * ⏳ N-step Lookahead
 * ⏳ DQN Training Loop 구축
 * ⏳ Leaderboard 기반 자동 제출 파이프라인
-
----
-
-## 🧾 Submission 생성 가이드
-
-1) `src/agents.txt`에 대상 에이전트 파일을 줄 단위로 적습니다. 예시:  
-   - 파일명만: `mtd_f_negamax_nf.py` (src 이하를 검색해 첫 매칭 사용)  
-   - 상대경로: `MTDF/mtd_f_negamax_nf.py`  
-   - 절대경로도 허용
-
-2) 실행  
-   ```bash
-   python src/make_submission.py
-   ```
-
-3) 생성 결과  
-   - 각 소스 파일과 같은 폴더에 `submission_<원본>.py`가 만들어집니다.  
-   - 후보가 여러 개면 첫 경로를 사용하며 경고를 출력합니다.  
-   - agents.txt가 비었거나 파일을 찾지 못하면 에러 메시지를 출력합니다.
