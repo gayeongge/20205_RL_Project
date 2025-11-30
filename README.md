@@ -8,13 +8,13 @@
 
 ## ✨ **프로젝트 목표**
 
-이 프로젝트는 다음을 목표로 합니다:
+ConnectX 강화를 위한 실험 환경과 문서를 동시에 제공하기 위해 다음 항목에 집중한다:
 
-* ConnectX 게임 환경에서 동작하는 다양한 RL Agents 개발
-* One-step Heuristic → N-step Lookahead → DQN → 강화형 Hybrid Agent까지 확장
-* Kaggle 제출 형식에 맞춘 자동 submission 파일 생성 시스템 구축
-* VSCode + Local Python 환경에서도 안정적으로 테스트 가능하도록 구성
-* 여러 Agent 버전 간 A/B 테스트를 쉽게 수행할 수 있는 구조 제공
+* ConnectX 환경에서 동작하는 휴리스틱·탐색·신경망 기반 에이전트를 통합 관리하고 실험
+* One-step, N-step, AlphaZero 스타일 MCTS, DQN 계열까지 발전 과정을 버전별로 문서화
+* Kaggle 제출 규격을 만족하는 자동 submission 생성 파이프라인을 유지·개선
+* VSCode + Local Python + Kaggle Environments 조합에서 재현 가능한 테스트/디버깅 환경 제공
+* 동일 경기 조합을 반복 실행해 승률을 비교할 수 있는 실험 스크립트/리포트 템플릿 제공
 
 ---
 
@@ -25,8 +25,8 @@
  ┣ 📂 kaggle_commit
  ┣ 📂 src
  │   ┣ 📂 ALphazeor     # AlphaZero 계열
- │   │   ┣ alphazero_edu.py, alphazero_edu_2~5.py
- │   │   ┗ submission_alphazero_edu_*.py
+│   │   ┣ alphazero_mcts_basic.py, alphazero_mcts_balanced.py, alphazero_mcts_aggressive.py, alphazero_mcts_connectivity.py, alphazero_mcts_gap_defense.py
+│   │   ┗ submission_alphazero_edu_*.py
  │   ┣ 📂 DQN           # DQN 계열
  │   │   ┣ DQN.py, drl_double.py, drl_dqn.py, drl_dueling.py
  │   │   ┗ submission_DQN.py, submission_drl_dqn.py
@@ -49,7 +49,7 @@
 - One-Step / N-Step: `src/Normal/one_step_lookahead.py`, `src/Normal/n_step_lookahead.py`
 - Minimax/Alpha-Beta: `src/Normal/minimax_alpha_beta.py`
 - DQN 계열: `src/DQN/DQN.py`, `src/DQN/drl_double.py`, `src/DQN/drl_dqn.py`, `src/DQN/drl_dueling.py`
-- AlphaZero 계열: `src/ALphazeor/alphazero_edu*.py`
+- AlphaZero 계열: `src/ALphazeor/alphazero_mcts_basic.py`, `src/ALphazeor/alphazero_mcts_balanced.py`, `src/ALphazeor/alphazero_mcts_aggressive.py`, `src/ALphazeor/alphazero_mcts_connectivity.py`, `src/ALphazeor/alphazero_mcts_gap_defense.py`
 - MTD(f) 계열: `src/MTDF/mtd_f*.py`
 - 제출용 생성본: 각 폴더의 `submission_*.py` (make_submission.py로 자동 생성)
 
@@ -119,15 +119,16 @@ ANSI 렌더링에서 `1` 또는 `2`가 내 돌입니다.
 
 ---
 
-## 💡 **Troubleshooting**
+## ❗ Troubleshooting Highlights
 
-정리중 ... 
+1. **Stage 1 (alphazero_mcts_basic)** — `kaggle_environments.evaluate` 로그 파싱 오류로 승·패 수치가 음수/0으로 기록되고 “No valid games completed” 경고만 남음. Stage 2에서 휴리스틱/로그 루틴 재구성.
+2. **Stage 2 (alphazero_mcts_balanced)** — 단순 휴리스틱 때문에 여러 방향 더블 쓰렛 대응이 느리고 중앙 장악이 약함. Stage 3에서 공격/수비 가중치 재조정 및 중앙 전략 추가.
+3. **Stage 3 (alphazero_mcts_aggressive)** — 공격성은 좋아졌지만 gap 패턴 감지가 부족하고 방어를 희생. Stage 4/5에서 연결성·gap 감지를 추가하며 개선.
 
 ---
 
 ## ✨ **향후 계획 (Roadmap)**
 
-* ✔ One-step 리팩터링 / 개선 / Kaggle-safe 완료
-* ⏳ N-step Lookahead
-* ⏳ DQN Training Loop 구축
-* ⏳ Leaderboard 기반 자동 제출 파이프라인
+* ⚙ AlphaZero MCTS 계열 고도화: Balanced/Aggressive/Connectivity/Gap 버전 통합 및 self-play 학습 검토
+* ⚙ DQN 파이프라인 확장: 더블/듀얼링/가중치 내장 자동화와 학습 로그 시각화 추가
+* ⚙ Kaggle 운영 지원: 자동 벤치마크 스크립트와 submission 빌더 개선, Leaderboard 성능 추적 자동화
