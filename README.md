@@ -25,8 +25,8 @@ ConnectX 강화를 위한 실험 환경과 문서를 동시에 제공하기 위�
  ┣ 📂 kaggle_commit
  ┣ 📂 src
  │   ┣ 📂 ALphazeor     # AlphaZero 계열
-│   │   ┣ alphazero_mcts_basic.py, alphazero_mcts_balanced.py, alphazero_mcts_aggressive.py, alphazero_mcts_connectivity.py, alphazero_mcts_gap_defense.py
-│   │   ┗ submission_alphazero_edu_*.py
+ │   │   ┣ alphazero_mcts_basic.py, alphazero_mcts_balanced.py, alphazero_mcts_aggressive.py, alphazero_mcts_connectivity.py, alphazero_mcts_gap_defense.py
+ │   │   ┗ submission_alphazero_edu_*.py
  │   ┣ 📂 DQN           # DQN 계열
  │   │   ┣ DQN.py, drl_double.py, drl_dqn.py, drl_dueling.py
  │   │   ┗ submission_DQN.py, submission_drl_dqn.py
