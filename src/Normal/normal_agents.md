@@ -1,15 +1,15 @@
 # ConnectX Normal 에이전트 변형 비교
 
 ## 한눈 요약
-| 파일 | 추천 이름 | 개선 배경 | 핵심 특징 | 현재 한계 |
+| 파일 | 변경된 이름 | 개선 배경 | 핵심 특징 | 현재 한계 |
 | --- | --- | --- | --- | --- |
-| `one_step_lookahead.py` | `simple_greedy_baseline.py` | 즉석 반응 기반 기본 휴리스틱으로 단순하고 빠른 에이전트 구현 | 1수 앞 평가만으로 즉시 최선수 선택, 패턴 기반 점수 계산 (승리 1M, 방어 -50K), 계산 복잡도 O(열수) | 전략적 깊이 부재로 함정에 빠지기 쉬움, 상대 다음수 예측 불가능으로 수비적 플레이 취약 |
-| `n_step_lookahead.py` | `minimax_basic_search.py` | 1수 예측의 한계 극복을 위해 기본 minimax로 다수 미래 시나리오 탐색 | 깊이 3 minimax 탐색, 재귀적 최적해 탐색, 강화된 패턴 점수 (내 3목 10K, 상대 3목 -50K) | Alpha-beta 가지치기 없어 탐색 비효율, 동일 상황 중복 계산으로 깊이 제한 |
-| `minimax_alpha_beta.py` | `minimax_optimized_search.py` | 기본 minimax의 탐색 비효율성 해결을 위한 alpha-beta 가지치기 최적화 | 깊이 4 탐색 + Alpha-beta 가지치기로 탐색 공간 대폭 절약, 동일 패턴 점수 체계 유지, 실용적 성능 확보 | 전이표 없어 동일 보드 상태 중복 평가, 정적 평가함수의 단순함으로 복잡한 전술 패턴 놓침 |
+| `simple_greedy_baseline.py` | (기존 `one_step_lookahead.py`) | 즉석 반응 기반 기본 휴리스틱으로 단순하고 빠른 에이전트 구현 | 1수 앞 평가만으로 즉시 최선수 선택, 패턴 기반 점수 계산 (승리 1M, 방어 -50K), 계산 복잡도 O(열수) | 전략적 깊이 부재로 함정에 빠지기 쉬움, 상대 다음수 예측 불가능으로 수비적 플레이 취약 |
+| `minimax_basic_search.py` | (기존 `n_step_lookahead.py`) | 1수 예측의 한계 극복을 위해 기본 minimax로 다수 미래 시나리오 탐색 | 깊이 3 minimax 탐색, 재귀적 최적해 탐색, 강화된 패턴 점수 (내 3목 10K, 상대 3목 -50K) | Alpha-beta 가지치기 없어 탐색 비효율, 동일 상황 중복 계산으로 깊이 제한 |
+| `minimax_optimized_search.py` | (기존 `minimax_alpha_beta.py`) | 기본 minimax의 탐색 비효율성 해결을 위한 alpha-beta 가지치기 최적화 | 깊이 4 탐색 + Alpha-beta 가지치기로 탐색 공간 대폭 절약, 동일 패턴 점수 체계 유지, 실용적 성능 확보 | 전이표 없어 동일 보드 상태 중복 평가, 정적 평가함수의 단순함으로 복잡한 전술 패턴 놓침 |
 
 ## 파일별 상세
 
-### `one_step_lookahead.py` → `simple_greedy_baseline.py`
+### `simple_greedy_baseline.py` (기존 `one_step_lookahead.py`)
 - **개선 배경.** ConnectX 기본 에이전트로서 즉석에서 빠른 판단을 내리는 단순 휴리스틱 기반 구현.
 - **핵심 특징.**
   - **즉석 평가**: 현재 보드에서 각 열에 돌을 놓았을 때의 즉시 효과만 계산하여 O(열수) 복잡도로 빠른 의사결정
@@ -18,7 +18,7 @@
   - **기본 fallback**: 계산된 점수가 동일할 경우 무작위 선택으로 예측 불가능성 확보
 - **한계.** 1수 후 결과만 고려하여 상대의 반격이나 장기 전략 부재, 함정 상황(상대에게 승리 기회 제공)에 취약.
 
-### `n_step_lookahead.py` → `minimax_basic_search.py`
+### `minimax_basic_search.py` (기존 `n_step_lookahead.py`)
 - **개선 배경.** 1수 예측의 전략적 한계를 극복하기 위해 기본 minimax 알고리즘으로 다수 미래 시나리오를 체계적으로 탐색.
 - **핵심 특징.**
   - **기본 Minimax**: `LOOKAHEAD_DEPTH=3`으로 3수 앞까지 모든 가능한 게임 트리를 재귀적으로 탐색
@@ -27,7 +27,7 @@
   - **완전 탐색**: 가지치기 없이 모든 노드를 방문하여 이론적으로 최적해 보장 (주어진 깊이 내에서)
 - **한계.** Alpha-beta 가지치기 부재로 지수적 탐색 비용, 깊이 제한으로 여전히 장기 전략 부족, 동일 보드 상태 중복 계산.
 
-### `minimax_alpha_beta.py` → `minimax_optimized_search.py`
+### `minimax_optimized_search.py` (기존 `minimax_alpha_beta.py`)
 - **개선 배경.** 기본 minimax의 탐색 비효율성을 Alpha-beta 가지치기로 해결하여 실용적 성능과 깊이 확보.
 - **핵심 특징.**
   - **Alpha-beta 가지치기**: `MAX_DEPTH=4`로 깊이 증가하면서도 불필요한 분기 조기 차단으로 탐색 효율 대폭 개선
@@ -86,7 +86,7 @@ def minimax_alpha_beta(grid, cur_player, me, depth, alpha, beta, cfg):
 3. **실전 성능** 최적화가 필요하면 `minimax_optimized_search.py`로 효율적 깊이 탐색
 4. **계산 복잡도**: O(열수) → O(브랜칭^깊이) → O(효율적브랜칭^깊이) 순으로 증가하지만 전략적 완성도도 향상
 
-## 추천 파일명 변경
+## 파일명 변경 완료 ✅
 - `one_step_lookahead.py` → `simple_greedy_baseline.py` (즉석 반응 기준선)
 - `n_step_lookahead.py` → `minimax_basic_search.py` (기본 minimax 탐색)
 - `minimax_alpha_beta.py` → `minimax_optimized_search.py` (최적화된 탐색)

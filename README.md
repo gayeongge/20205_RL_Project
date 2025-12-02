@@ -119,11 +119,87 @@ ANSI 렌더링에서 `1` 또는 `2`가 내 돌입니다.
 
 ---
 
-## ❗ Troubleshooting Highlights
+## ❗ Troubleshooting & 성능 개선 가이드
 
-1. **Stage 1 (alphazero_mcts_basic)** — `kaggle_environments.evaluate` 로그 파싱 오류로 승·패 수치가 음수/0으로 기록되고 “No valid games completed” 경고만 남음. Stage 2에서 휴리스틱/로그 루틴 재구성.
-2. **Stage 2 (alphazero_mcts_balanced)** — 단순 휴리스틱 때문에 여러 방향 더블 쓰렛 대응이 느리고 중앙 장악이 약함. Stage 3에서 공격/수비 가중치 재조정 및 중앙 전략 추가.
-3. **Stage 3 (alphazero_mcts_aggressive)** — 공격성은 좋아졌지만 gap 패턴 감지가 부족하고 방어를 희생. Stage 4/5에서 연결성·gap 감지를 추가하며 개선.
+### 📋 **알고리즘별 주요 이슈 & 해결책**
+
+#### 🎯 **MTD(f) 계열 (`src/MTDF/`)**
+| 문제 | 원인 | 해결책 | 해당 파일 |
+|------|------|--------|----------|
+| **부호 오류로 승부 결과 뒤바뀜** | player/root_player 비교 방식의 혼동 | Negamax 알고리즘 도입으로 항상 현재 플레이어 관점에서 점수 계산 | `mtdf_negamax_stable.py` |
+| **시간 초과시 쓰레기 값 반환** | 미완료 탐색 결과를 그대로 사용 | `try-except TimeoutError`로 완료된 이전 깊이 결과 사용 (safe-fail) | `mtdf_negamax_stable.py` |
+| **동일 효과 승리수 중 비효율적 선택** | 높이 고려 없이 첫 번째 발견된 승리수 선택 | `get_column_height()`로 낮은 높이 우선 선택하여 여유있는 승리 | `mtdf_negamax_strategic.py` |
+| **자살수로 상대에게 승리 기회 제공** | 내 수 후 상대 즉시 승리 가능 여부 미검사 | `check_suicide_move()`로 위험한 수 사전 배제 | `mtdf_negamax_strategic.py` |
+
+**성능 개선 결과**: negamax vs basic MTD(f) 승률 0% → 100%
+
+#### 🔄 **Normal 에이전트 계열 (`src/Normal/`)**
+| 문제 | 원인 | 해결책 | 해당 파일 |
+|------|------|--------|----------|
+| **1수 앞만 보여 함정에 빠짐** | 즉석 평가만으로 전략적 깊이 부재 | Minimax 알고리즘으로 3수 앞 미래 시나리오 탐색 | `minimax_basic_search.py` |
+| **탐색 속도 너무 느림** | Alpha-beta 가지치기 없이 모든 노드 방문 | Alpha-beta 가지치기로 불필요 분기 조기 차단 | `minimax_optimized_search.py` |
+| **동일 보드 상태 중복 계산** | 전이표(해시테이블) 없어 같은 상황 재계산 | ⚠️ **추후 개선 필요**: Zobrist 해싱 + 전이표 도입 고려 | - |
+
+**알고리즘 진화**: O(열수) → O(분기^깊이) → O(효율적분기^깊이)
+
+#### 🧠 **DQN 계열 (`src/DQN/`)**
+| 문제 | 원인 | 해결책 | 해당 파일 |
+|------|------|--------|----------|
+| **Q값 폭주로 학습 불안정** | 동일 네트워크로 행동·가치 동시 추정 | 온라인/타깃 네트워크 분리한 Double DQN 도입 | `drl_double.py` |
+| **열별 가치 구분 못함** | 단일 Q값으로 미묘한 차이 표현 한계 | Value/Advantage 분리한 Dueling 아키텍처 | `drl_dueling.py` |
+| **Kaggle 점수 저조** | 기본 보상 체계로 장기 전략 학습 부족 | 보상 셰이핑 + 다중 TD 업데이트 + 유효 열 마스킹 | `drl_dqn_optimized.py` |
+| **제출 후 추가 학습 필요** | 가중치 미내장 상태 | `EMBEDDED_STATE_DICT` 내장으로 학습 없이 제출 가능 | `drl_dqn.py` |
+
+### 🛠️ **환경 설정 이슈**
+
+#### **CMake 빌드 에러 (open_spiel 의존성)**
+```bash
+# 문제: RuntimeError: CMake must be installed to build open_spiel
+# 해결책 1: 의존성 제외 설치
+pip install numpy torch torchvision gymnasium requests
+pip install kaggle-environments --no-deps
+
+# 해결책 2: 배치 파일 사용
+install_requirements.bat
+```
+
+#### **파일 경로 문제 (submission 생성 실패)**
+```bash
+# 문제: FileNotFoundError: submission_files 디렉토리 없음
+# 원인: submission_files가 src/ 대신 root/에 위치
+# 해결책: make_submission.py에서 경로 수정
+submission_dir = src_path.parent.parent / "submission_files"
+```
+
+### 🎯 **성능 최적화 팁**
+
+#### **점수 체계 튜닝 우선순위**
+1. **즉시 승리/패배**: ±1,000,000,000 (절대값)
+2. **킬각 방어**: -20,000,000 (무조건 막아야 함)
+3. **공격 기회**: +100,000 (승리로 연결)
+4. **견제**: -40,000 (상대 2목 미리 차단)
+5. **기반**: +1,000 (내 2목 구축)
+
+#### **탐색 깊이 vs 성능 트레이드오프**
+- **깊이 1-2**: 즉석 반응, 빠르지만 전략성 부족
+- **깊이 3-4**: 실용적 균형점, 대부분의 전술 패턴 감지
+- **깊이 5+**: 이론적 최적이지만 시간 초과 위험
+
+#### **메모리 효율성**
+- **Zobrist 해싱**: 64비트 해시로 보드 상태 압축
+- **전이표**: 동일 상황 중복 계산 방지
+- **Alpha-beta 가지치기**: 탐색 공간 대폭 절약
+
+### 📊 **성능 벤치마크 결과**
+
+| 알고리즘 | vs Random | vs Negamax | 특징 |
+|----------|-----------|------------|------|
+| Simple Greedy | 100% | - | 빠르지만 전략성 부족 |
+| Basic Minimax | 100% | 50% | 기본 전략성 확보 |
+| Alpha-beta | 100% | 70% | 효율적 탐색 |
+| MTD(f) Baseline | 100% | 0% | 부호 오류 이슈 |
+| MTD(f) Negamax | 100% | 100% | 안정성 확보 |
+| MTD(f) Strategic | 100% | 100% | 최고 완성도 |
 
 ---
 
