@@ -127,7 +127,7 @@ agents_files = {
 # ==========================================
 results = []
 
-print(f"🚀 실험 시작: 총 {len(agents_files)}개 에이전트 x {len(SEEDS)}개 시드 테스트\n")
+print(f" 실험 시작: 총 {len(agents_files)}개 에이전트 x {len(SEEDS)}개 시드 테스트\n")
 
 for agent_name, file_name in agents_files.items():
     file_path = os.path.join(BASE_PATH, file_name)
@@ -244,7 +244,7 @@ opponent_pool = baselines + list(my_agents.keys())
 # ==========================================
 match_results = []
 
-print(f"🚀 리그전 시작: {len(my_agents)}개 에이전트 vs {len(opponent_pool)}개 상대 x {len(SEEDS)}개 시드")
+print(f" 리그전 시작: {len(my_agents)}개 에이전트 vs {len(opponent_pool)}개 상대 x {len(SEEDS)}개 시드")
 print(f"   (총 게임 수: {len(my_agents) * len(opponent_pool) * len(SEEDS) * NUM_EPISODES} 판 예상)\n")
 
 # P1: 평가 대상 에이전트
@@ -300,7 +300,7 @@ for p1_name, p1_file in my_agents.items():
             except Exception as e:
                 print(f"Error: {p1_name} vs {p2_name} (Seed {seed}): {e}")
 
-    print(f"✅ Finished matches for {p1_name}")
+    print(f" Finished matches for {p1_name}")
 
 # 데이터프레임 변환
 df_matches = pd.DataFrame(match_results)
@@ -313,7 +313,7 @@ overall_summary = df_matches.groupby("Player")["Win Rate"].agg(['mean', 'std', '
 overall_summary.columns = ['Avg Win Rate (Total)', 'Std Dev', 'Min', 'Max']
 overall_summary = overall_summary.sort_values(by="Avg Win Rate (Total)", ascending=False)
 
-print("\n🏆 [종합 순위: 전체 상대 평균 승률]")
+print("\n [종합 순위: 전체 상대 평균 승률]")
 display(overall_summary)
 
 # ==========================================
@@ -368,7 +368,7 @@ overall_summary.to_csv(summary_csv_path)
 h2h_matrix.to_csv(h2h_csv_path)
 df_matches.to_csv(raw_csv_path, index=False)
 
-print(f"✅ 데이터 저장 완료:")
+print(f" 데이터 저장 완료:")
 print(f"  - 종합 순위: {summary_csv_path}")
 print(f"  - 상대 전적: {h2h_csv_path}")
 print(f"  - 전체 기록: {raw_csv_path}")
