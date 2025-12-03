@@ -252,7 +252,7 @@ for p1_name, p1_file in my_agents.items():
     p1_path = os.path.join(BASE_PATH, p1_file)
 
     if not os.path.exists(p1_path):
-        print(f"⚠️ 파일 없음: {p1_file} (건너뜀)")
+        print(f" 파일 없음: {p1_file} (건너뜀)")
         continue
 
     # P2: 상대방 에이전트
