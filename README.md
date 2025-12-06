@@ -56,9 +56,9 @@ ConnectX 강화를 위한 실험 환경과 문서를 동시에 제공하기 위�
 각 에이전트는 독립된 `.py` 파일로 관리되어 한 파일에 한 Agent가 들어있습니다.
 
 ### 🔗 DQN 학습 가중치
-- [`src/DQN/drl_dqn_weights.pth`](파일 링크)[!https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dqn_weights.pth]
-- [`src/DQN/drl_double_weights.pth`](파일 링크)[!https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_double_weights.pth]
-- [`src/DQN/drl_dueling_weights.pth`](파일 링크)[!https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dueling_weights.pth]
+- [`src/DQN/drl_dqn_weights.pth`](파일 링크)[https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dqn_weights.pth]
+- [`src/DQN/drl_double_weights.pth`](파일 링크)[https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_double_weights.pth]
+- [`src/DQN/drl_dueling_weights.pth`](파일 링크)[https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dueling_weights.pth]
 
 ---
 
