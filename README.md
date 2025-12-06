@@ -55,6 +55,11 @@ ConnectX 강화를 위한 실험 환경과 문서를 동시에 제공하기 위�
 
 각 에이전트는 독립된 `.py` 파일로 관리되어 한 파일에 한 Agent가 들어있습니다.
 
+### 🔗 DQN 학습 가중치
+- [`src/DQN/drl_dqn_weights.pth`](파일 링크)[!https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dqn_weights.pth]
+- [`src/DQN/drl_double_weights.pth`](파일 링크)[!https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_double_weights.pth]
+- [`src/DQN/drl_dueling_weights.pth`](파일 링크)[!https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dueling_weights.pth]
+
 ---
 
 ## ▶️ **로컬에서 에이전트 테스트하기**
@@ -150,56 +155,6 @@ ANSI 렌더링에서 `1` 또는 `2`가 내 돌입니다.
 | **Kaggle 점수 저조** | 기본 보상 체계로 장기 전략 학습 부족 | 보상 셰이핑 + 다중 TD 업데이트 + 유효 열 마스킹 | `drl_dqn_optimized.py` |
 | **제출 후 추가 학습 필요** | 가중치 미내장 상태 | `EMBEDDED_STATE_DICT` 내장으로 학습 없이 제출 가능 | `drl_dqn.py` |
 
-### 🛠️ **환경 설정 이슈**
-
-#### **CMake 빌드 에러 (open_spiel 의존성)**
-```bash
-# 문제: RuntimeError: CMake must be installed to build open_spiel
-# 해결책 1: 의존성 제외 설치
-pip install numpy torch torchvision gymnasium requests
-pip install kaggle-environments --no-deps
-
-# 해결책 2: 배치 파일 사용
-install_requirements.bat
-```
-
-#### **파일 경로 문제 (submission 생성 실패)**
-```bash
-# 문제: FileNotFoundError: submission_files 디렉토리 없음
-# 원인: submission_files가 src/ 대신 root/에 위치
-# 해결책: make_submission.py에서 경로 수정
-submission_dir = src_path.parent.parent / "submission_files"
-```
-
-### 🎯 **성능 최적화 팁**
-
-#### **점수 체계 튜닝 우선순위**
-1. **즉시 승리/패배**: ±1,000,000,000 (절대값)
-2. **킬각 방어**: -20,000,000 (무조건 막아야 함)
-3. **공격 기회**: +100,000 (승리로 연결)
-4. **견제**: -40,000 (상대 2목 미리 차단)
-5. **기반**: +1,000 (내 2목 구축)
-
-#### **탐색 깊이 vs 성능 트레이드오프**
-- **깊이 1-2**: 즉석 반응, 빠르지만 전략성 부족
-- **깊이 3-4**: 실용적 균형점, 대부분의 전술 패턴 감지
-- **깊이 5+**: 이론적 최적이지만 시간 초과 위험
-
-#### **메모리 효율성**
-- **Zobrist 해싱**: 64비트 해시로 보드 상태 압축
-- **전이표**: 동일 상황 중복 계산 방지
-- **Alpha-beta 가지치기**: 탐색 공간 대폭 절약
-
-### 📊 **성능 벤치마크 결과**
-
-| 알고리즘 | vs Random | vs Negamax | 특징 |
-|----------|-----------|------------|------|
-| Simple Greedy | 100% | - | 빠르지만 전략성 부족 |
-| Basic Minimax | 100% | 50% | 기본 전략성 확보 |
-| Alpha-beta | 100% | 70% | 효율적 탐색 |
-| MTD(f) Baseline | 100% | 0% | 부호 오류 이슈 |
-| MTD(f) Negamax | 100% | 100% | 안정성 확보 |
-| MTD(f) Strategic | 100% | 100% | 최고 완성도 |
 
 ---
 
