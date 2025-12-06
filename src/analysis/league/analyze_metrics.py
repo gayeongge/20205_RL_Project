@@ -1,6 +1,7 @@
 import argparse
 import json
 from collections import defaultdict
+from itertools import cycle
 from pathlib import Path
 from typing import Dict, List
 
@@ -87,13 +88,59 @@ def build_dataframe(records: List[Dict]) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def annotate_bars(bars, fmt="{:.2f}"):
+    for bar in bars:
+        height = bar.get_height()
+        if np.isnan(height):
+            continue
+        plt.annotate(
+            fmt.format(height),
+            (bar.get_x() + bar.get_width() / 2, height),
+            xytext=(0, 6),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=8,
+        )
+
+
+def annotate_forced_rates(bars, rates):
+    for bar, rate in zip(bars, rates):
+        height = bar.get_height()
+        if np.isnan(rate):
+            label = "N/A"
+        else:
+            label = f"{rate * 100:.0f}%"
+        plt.annotate(
+            label,
+            (bar.get_x() + bar.get_width() / 2, height),
+            xytext=(0, 6),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=8,
+        )
+
+
+def set_xtick_style(rotation=20):
+    ax = plt.gca()
+    for label in ax.get_xticklabels():
+        label.set_rotation(rotation)
+        label.set_horizontalalignment("right")
+
+
 def plot_forced(forced: pd.DataFrame):
     plt.figure(figsize=(8, 5))
     x = np.arange(len(forced.index))
     width = 0.35
-    plt.bar(x - width / 2, forced["win_rate"], width=width, label="Forced Win")
-    plt.bar(x + width / 2, forced["block_rate"], width=width, label="Forced Block")
-    plt.xticks(x, forced.index, rotation=20)
+    win_rates = forced["win_rate"].fillna(0).to_numpy()
+    block_rates = forced["block_rate"].fillna(0).to_numpy()
+    win_bars = plt.bar(x - width / 2, win_rates, width=width, label="Forced Win")
+    block_bars = plt.bar(x + width / 2, block_rates, width=width, label="Forced Block")
+    annotate_forced_rates(win_bars, forced["win_rate"].tolist())
+    annotate_forced_rates(block_bars, forced["block_rate"].tolist())
+    plt.xticks(x, forced.index)
+    set_xtick_style(rotation=25)
     plt.ylim(0, 1.05)
     plt.ylabel("Success Rate")
     plt.title("Forced Win / Block Response Rate")
@@ -108,8 +155,10 @@ def plot_forced(forced: pd.DataFrame):
 def plot_turns(agg_turns: pd.DataFrame):
     plt.figure(figsize=(7, 5))
     x = np.arange(len(agg_turns.index))
-    plt.bar(x, agg_turns["avg_turns"], yerr=agg_turns["std_turns"], capsize=5)
-    plt.xticks(x, agg_turns.index, rotation=20)
+    bars = plt.bar(x, agg_turns["avg_turns"], yerr=agg_turns["std_turns"], capsize=5)
+    annotate_bars(bars, fmt="{:.1f}")
+    plt.xticks(x, agg_turns.index)
+    set_xtick_style(rotation=25)
     plt.ylabel("Turns")
     plt.title("Average Game Length (+/- 1 std)")
     plt.tight_layout()
@@ -122,8 +171,17 @@ def plot_turns(agg_turns: pd.DataFrame):
 def plot_search_cost(agg_search: pd.DataFrame):
     plt.figure(figsize=(7, 5))
     plt.scatter(agg_search["search_nodes"], agg_search["decision_time_ms"], s=120)
+    offset_cycle = cycle([(5, 6), (-5, 6), (5, -6), (-5, -6), (0, 10), (0, -10)])
     for player, row in agg_search.iterrows():
-        plt.annotate(player, (row["search_nodes"], row["decision_time_ms"]), textcoords="offset points", xytext=(5, 5))
+        dx, dy = next(offset_cycle)
+        plt.annotate(
+            player,
+            (row["search_nodes"], row["decision_time_ms"]),
+            textcoords="offset points",
+            xytext=(dx, dy),
+            bbox={"boxstyle": "round,pad=0.2", "fc": "white", "alpha": 0.7},
+            fontsize=8,
+        )
     plt.xscale("log")
     plt.xlabel("Average Search Nodes (log)")
     plt.ylabel("Average Decision Time (ms)")

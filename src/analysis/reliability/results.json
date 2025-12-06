@@ -1,0 +1,267 @@
+[
+  {
+    "agent": "Greedy (1-step)",
+    "file": "submission_simple_greedy_baseline.py",
+    "opponent": "random",
+    "episodes_per_seed": 20,
+    "seeds": [
+      0,
+      1,
+      2,
+      42,
+      999
+    ],
+    "seed_results": [
+      {
+        "seed": 0,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 1,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 2,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 42,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 999,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      }
+    ],
+    "mean_win_rate": 1.0,
+    "std_win_rate": 0.0,
+    "ci95": 0.0
+  },
+  {
+    "agent": "N-step Lookahead",
+    "file": "submission_n_step_lookahead.py",
+    "opponent": "random",
+    "episodes_per_seed": 20,
+    "seeds": [
+      0,
+      1,
+      2,
+      42,
+      999
+    ],
+    "seed_results": [
+      {
+        "seed": 0,
+        "wins": 18,
+        "draws": 0,
+        "losses": 2,
+        "win_rate": 0.9
+      },
+      {
+        "seed": 1,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 2,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 42,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 999,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      }
+    ],
+    "mean_win_rate": 0.9800000000000001,
+    "std_win_rate": 0.04472135954999579,
+    "ci95": 0.03919999999999999
+  },
+  {
+    "agent": "MTD(f) Strategic",
+    "file": "submission_mtdf_negamax_strategic.py",
+    "opponent": "random",
+    "episodes_per_seed": 20,
+    "seeds": [
+      0,
+      1,
+      2,
+      42,
+      999
+    ],
+    "seed_results": [
+      {
+        "seed": 0,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 1,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 2,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 42,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 999,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      }
+    ],
+    "mean_win_rate": 1.0,
+    "std_win_rate": 0.0,
+    "ci95": 0.0
+  },
+  {
+    "agent": "Double DQN",
+    "file": "submission_drl_double.py",
+    "opponent": "random",
+    "episodes_per_seed": 20,
+    "seeds": [
+      0,
+      1,
+      2,
+      42,
+      999
+    ],
+    "seed_results": [
+      {
+        "seed": 0,
+        "wins": 19,
+        "draws": 0,
+        "losses": 1,
+        "win_rate": 0.95
+      },
+      {
+        "seed": 1,
+        "wins": 14,
+        "draws": 0,
+        "losses": 6,
+        "win_rate": 0.7
+      },
+      {
+        "seed": 2,
+        "wins": 19,
+        "draws": 0,
+        "losses": 1,
+        "win_rate": 0.95
+      },
+      {
+        "seed": 42,
+        "wins": 16,
+        "draws": 0,
+        "losses": 4,
+        "win_rate": 0.8
+      },
+      {
+        "seed": 999,
+        "wins": 16,
+        "draws": 0,
+        "losses": 4,
+        "win_rate": 0.8
+      }
+    ],
+    "mean_win_rate": 0.8400000000000001,
+    "std_win_rate": 0.10839741694339398,
+    "ci95": 0.09501452520536004
+  },
+  {
+    "agent": "AlphaZero MCTS",
+    "file": "submission_alphazero_mcts_gap_defense.py",
+    "opponent": "random",
+    "episodes_per_seed": 20,
+    "seeds": [
+      0,
+      1,
+      2,
+      42,
+      999
+    ],
+    "seed_results": [
+      {
+        "seed": 0,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 1,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 2,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 42,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      },
+      {
+        "seed": 999,
+        "wins": 20,
+        "draws": 0,
+        "losses": 0,
+        "win_rate": 1.0
+      }
+    ],
+    "mean_win_rate": 1.0,
+    "std_win_rate": 0.0,
+    "ci95": 0.0
+  }
+]

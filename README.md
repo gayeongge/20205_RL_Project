@@ -2,9 +2,17 @@
 
 > Kaggle ConnectX 환경을 기반으로 여러 강화학습 기법(One-step, N-step, DQN 등)을 구현하고 비교하여, 가장 우수한 전략을 찾는 프로젝트입니다.
 > 
-> 프로젝트 인원 : 이가영, 이현지
+> 프로젝트 인원 : 
+A72066이가영, A72076이현지
 
 ---
+
+## 테스트 방법 (run_agen.ipynb)
+
+1. `jupyter notebook`나 VS Code에서 `src/run_agen.ipynb`를 연다. (경로 문제로 submission_files 폴더도 src 밑에 같은 경로에 존재 해야 한다.)
+2. 설정 셀(셀 3)에서 `PLAYER1_KEY`, `PLAYER2_KEY`값을 프로젝트 상황에 맞게 수정한다.
+3. 실행 셀(셀 4)을 돌려 ConnectX 한 판을 플레이한다.
+
 
 ## ✨ **프로젝트 목표**
 
@@ -18,47 +26,68 @@ ConnectX 강화를 위한 실험 환경과 문서를 동시에 제공하기 위�
 
 ---
 
-## 📁 **프로젝트 구조 (.py 중심)**
 
-```
-📦 2025_RL_Project
- ┣ 📂 kaggle_commit
- ┣ 📂 src
- │   ┣ 📂 ALphazeor     # AlphaZero 계열
- │   │   ┣ alphazero_mcts_basic.py, alphazero_mcts_balanced.py, alphazero_mcts_aggressive.py, alphazero_mcts_connectivity.py, alphazero_mcts_gap_defense.py
- │   │   ┗ submission_alphazero_edu_*.py
- │   ┣ 📂 DQN           # DQN 계열
- │   │   ┣ DQN.py, drl_double.py, drl_dqn.py, drl_dueling.py
- │   │   ┗ submission_DQN.py, submission_drl_dqn.py
- │   ┣ 📂 MTDF          # MTD(f)/Negamax 계열
- │   │   ┣ mtd_f.py, mtd_f_negamax.py, mtd_f_negamax_nf.py
- │   │   ┗ submission_mtd_f_negamax*.py
- │   ┣ 📂 Normal        # 기본 탐색/헬퍼
- │   │   ┣ one_step_lookahead.py, n_step_lookahead.py
- │   │   ┣ minimax_alpha_beta.py
- │   │   ┗ submission_minimax_alpha_beta.py, submission.py
- │   ┣ agents.txt       # 자동 제출 생성용 파일 목록
- │   ┗ make_submission.py  # submission 생성 스크립트 (경로 검색)
- ┗ 📄 README.md
-```
+## 분석 리포트 실행 가이드
+
+- **DQN 비교 실험** (`src/analysis/dqn_analysis/summary_page.md`)
+  1. `cd src/analysis/dqn_analysis`
+  2. `python run_dqn_bench.py --games-per-order 5`
+  3. `python summarize.py` · `python plot_metrics.py`
+  4. 산출물: `data/*.json`, `plots/forced_rates.png`, `plots/avg_turns.png`
+- **Cross-play League** (`src/analysis/league/summary_page.md`)
+  1. `cd src/analysis/league`
+  2. `python run_league.py --games-per-order 5 --output data/league_results.jsonl`
+  3. `python analyze_metrics.py --input data/league_results.jsonl`
+  4. 산출물: `data/metrics.json`, `plots/*.png`, `findings.md`
+- **Seed Reliability** (`src/analysis/reliability/summary_page.md`)
+  1. `cd src/analysis/reliability`
+  2. `python seed_reliability.py --episodes 20 --seeds 0 1 2 42 999`
+  3. `python visualize_reliability.py --results results.json`
+  4. 산출물: `results.json`, `seed_reliability.png`
+
+## 프로젝트 구조 (최신)
+
+`
+20205_RL_Project/
+├── README.md
+├── requirements.txt
+├── requirements_kaggle.txt
+├── RL_project_handout_r1.pdf
+├── src/
+└── ├── agents.txt
+    ├── make_submission.py
+    ├── run_agen.ipynb
+    ├── ALphazeor/         # AlphaZero MCTS 변형
+    ├── DQN/              # DQN · Double · Dueling 구현과 가중치
+    ├── MTDF/             # Negamax/MTD(f) 탐색
+    ├── Normal/           # Greedy(one_step) · Minimax(n_step) 탐색 기초
+    ├── analysis/         # 리그/시각화/보고서 자료
+    └── submission_files/ # Kaggle 제출 스텁
+
+`
+
+각 디렉터리는 학습·탐색·평가·제출 단계가 뒤섞이지 않도록 역할별로 분리해 두었습니다. nalysis/에는 리그 스크립트와 결과, submission_files/에는 Kaggle 업로드용 단일 파일 에이전트드가 위치합니다.
 
 ---
 
-## 🧠 **에이전트 종류 (.py 기준)**
+## 에이전트 종류 (코드 기준)
 
-- One-Step / N-Step: `src/Normal/one_step_lookahead.py`, `src/Normal/n_step_lookahead.py`
-- Minimax/Alpha-Beta: `src/Normal/minimax_alpha_beta.py`
-- DQN 계열: `src/DQN/DQN.py`, `src/DQN/drl_double.py`, `src/DQN/drl_dqn.py`, `src/DQN/drl_dueling.py`
-- AlphaZero 계열: `src/ALphazeor/alphazero_mcts_basic.py`, `src/ALphazeor/alphazero_mcts_balanced.py`, `src/ALphazeor/alphazero_mcts_aggressive.py`, `src/ALphazeor/alphazero_mcts_connectivity.py`, `src/ALphazeor/alphazero_mcts_gap_defense.py`
-- MTD(f) 계열: `src/MTDF/mtd_f*.py`
-- 제출용 생성본: 각 폴더의 `submission_*.py` (make_submission.py로 자동 생성)
+- Greedy & Lookahead (src/Normal/)
+  - simple_greedy_baseline.py: 기본 휴리스틱/한 수 앞 탐색
+  - minimax_basic_search.py: Minimax/Alpha-Beta 기반 탐색기
+- MTD(f) (src/MTDF/)
+  - mtdf_negamax_strategic.py: 루트 추적·안정화 로직을 포함한 변형
+- AlphaZero MCTS (src/ALphazeor/)
+  - lphazero_mcts_gap_defense.py: Gap-Defense self-play 에이전트
+- DQN 패밀리 (src/DQN/)
+  - drl_dqn.py, drl_double.py, drl_dueling.py 및 각 .pth 가중치/상태 스냅샷
+- 최종 대회 제출 스텁 (src/submission_files/)
+  - submission_simple_greedy_baseline.py, submission_n_step_lookahead.py
+  - submission_mtdf_negamax_strategic.py
+  - submission_alphazero_mcts_gap_defense.py
+  - submission_drl_double.py
 
-각 에이전트는 독립된 `.py` 파일로 관리되어 한 파일에 한 Agent가 들어있습니다.
-
-### 🔗 DQN 학습 가중치
-- [`src/DQN/drl_dqn_weights.pth`](파일 링크)[https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dqn_weights.pth]
-- [`src/DQN/drl_double_weights.pth`](파일 링크)[https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_double_weights.pth]
-- [`src/DQN/drl_dueling_weights.pth`](파일 링크)[https://github.com/gayeongge/2025_RL_Project/blob/main/src/DQN/drl_dueling_weights.pth]
+모든 제출본은 gents.txt와 make_submission.py로 일괄 관리되며, src/run_agen.ipynb를 사용하면 동일 코드를 ConnectX 환경에서 바로 시험할 수 있습니다.
 
 ---
 
@@ -121,6 +150,14 @@ ANSI 렌더링에서 `1` 또는 `2`가 내 돌입니다.
 * replay 화면 확인
 * reward 로그 분석
 * ERROR 로그가 있을 경우, replay JSON을 기반으로 디버깅 가능
+
+### Kaggle Leaderboard 추적 링크
+
+[Kaggle 리더보드](https://www.kaggle.com/competitions/connectx/submissions?dialog=episodes)
+
+현재 제출되어 있는 에이전트는 MTDF 전략의 최신 버전입니다. 위 링크와 내가 추가할 스크린샷을 참고해 “에이전트” 버튼을 클릭하면, 대회 참가자들 간 자동 리그에서 각 에이전트가 상대와 맞붙은 결과를 지속적으로 확인할 수 있습니다.
+
+![alt text](kaggle.png)
 
 ---
 

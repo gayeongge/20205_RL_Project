@@ -36,11 +36,6 @@ n_head           2623.648220   1987.902388
 one_head            4.509110      6.648459
 
 ## Plots
-- Forced response: src\analysis\plots\forced_response.png
-- Average turns: src\analysis\plots\average_turns.png
-- Search cost: src\analysis\plots\search_cost.png
-
-## Interpretation
-- 단일 룩어헤드(one_head)는 매 턴 패턴 창 전체를 평가해 즉시 승/차단을 100% 맞추지만, 평균 승률은 50%대에 머무른다.
-- N-step 룩어헤드는 깊이 3까지 순수 미니맥스를 돌리느라 강제 수를 따로 감지하지 않고 휴리스틱 점수만 보고 선택하기 때문에, 강제 차단률이 약 82%로 떨어진다.
-- 그럼에도 더 긴 탐색 덕분에 선공 60%, 후공 72.5%로 one_head보다 전반적인 승률이 높으므로, 즉각 전술만 보면 one_head가 낫지만 전체 게임 성능은 n_head가 우위다.
+- Forced response: plots\forced_response.png
+- Average turns: plots\average_turns.png
+- Search cost: plots\search_cost.png
