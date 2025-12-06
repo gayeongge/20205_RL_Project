@@ -16,7 +16,7 @@
 - **주 용도:** 베이스라인/롤아웃 정책, 큰 분기에서 빠른 근사, 탐색 초기 시드.
 - **튜닝:** 휴리스틱 스케일 정규화, 패턴 보상·패널티 추가, 합법 수 필터링.
 
-## N-Step Lookahead (submission_n_step_lookahead.py)
+## N-Step Lookahead
 ```
 상태 s
   └─ 탐색 트리 (깊이 d)
