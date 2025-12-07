@@ -26,21 +26,24 @@
 ### 환경 설정
 
 ```bash
-# python 3.11 기준
+# python 3.13 기준
 # 1. 가상환경 생성
 python -m venv .venv
+# py -3.13 -m venv .venv
 
 # 2. 가상환경 실행
-venv\Scripts\activate.bat
+.venv\Scripts\activate.bat
 
 # 3. 필수 패키지 설치
 pip install -r requirements.txt
+pip install --no-deps kaggle-environments==1.11.1, jsonschema, attrs
 ```
 
 ### 에이전트 테스트
 
 1. VS Code에서 `src/run_agen.ipynb` 열기
    - ⚠️ **주의**: `submission_files` 폴더도 `src` 밑에 같은 경로에 있어야 함
+   - 커널 환경 위에서 생성한 가상 환경으로 설정하고, 추가 패키지 설치하기
 2. 셀 3 (설정)에서 `PLAYER1_KEY`, `PLAYER2_KEY` 수정
 3. 셀 4 (실행)를 돌려 ConnectX 한 판 플레이
 
