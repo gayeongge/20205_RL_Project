@@ -47,26 +47,30 @@ ConnectX 강화를 위한 실험 환경과 문서를 동시에 제공하기 위�
 
 ## 프로젝트 구조 (최신)
 
-`
+아래 구조도는 자주 사용하는 폴더와 파일만 추려 설명했습니다. 나머지 세부 사용법은 각 폴더의 README 또는 summary 페이지를 참고하세요.
+
+```
 20205_RL_Project/
-├── README.md
-├── requirements.txt
-├── requirements_kaggle.txt
-├── RL_project_handout_r1.pdf
-├── src/
-└── ├── agents.txt
-    ├── make_submission.py
-    ├── run_agen.ipynb
-    ├── ALphazeor/         # AlphaZero MCTS 변형
-    ├── DQN/              # DQN · Double · Dueling 구현과 가중치
-    ├── MTDF/             # Negamax/MTD(f) 탐색
-    ├── Normal/           # Greedy(one_step) · Minimax(n_step) 탐색 기초
-    ├── analysis/         # 리그/시각화/보고서 자료
-    └── submission_files/ # Kaggle 제출 스텁
+|-- README.md                      # 프로젝트 개요와 실행 가이드
+|-- requirements.txt               # 로컬 실험용 필수 패키지 목록
+|-- requirements_kaggle.txt        # Kaggle 노트북용 최소 의존성
+|-- kaggle.png                     # 리더보드/결과 스크린샷
+|-- src/
+    |-- agents.txt                 # 제출 대상 agent 이름 목록
+    |-- make_submission.py         # agents.txt를 읽고 submission_*.py 생성
+    |-- run_agen.ipynb             # agent 벤치마크 및 재생산 노트북
+    |-- ALphazeor/                 # AlphaZero + MCTS self-play 구현
+    |-- DQN/                       # DQN/Double/Dueling 등 value-based agent
+    |-- MTDF/                      # Negamax / MTD(f) 탐색 기반 agent
+    |-- Normal/                    # Greedy / Minimax lookahead baseline
+    |-- analysis/
+    |   |-- dqn_analysis/          # DQN 실험 자동화 및 요약 리포트
+    |   |-- league/                # Cross-play 리그/메트릭 분석
+    |   |-- reliability/           # seed 안정성 측정/시각화 도구
+    |-- submission_files/          # Kaggle 업로드용 submission_*.py 산출물
+```
 
-`
-
-각 디렉터리는 학습·탐색·평가·제출 단계가 뒤섞이지 않도록 역할별로 분리해 두었습니다. nalysis/에는 리그 스크립트와 결과, submission_files/에는 Kaggle 업로드용 단일 파일 에이전트드가 위치합니다.
+src/analysis/*/summary_page.md 문서를 먼저 읽으면 각 실험 폴더의 목적과 실행 순서를 빠르게 파악할 수 있습니다.
 
 ---
 
@@ -151,7 +155,7 @@ ANSI 렌더링에서 `1` 또는 `2`가 내 돌입니다.
 * reward 로그 분석
 * ERROR 로그가 있을 경우, replay JSON을 기반으로 디버깅 가능
 
-### Kaggle Leaderboard 추적 링크
+## ⭐ Kaggle Leaderboard 추적 링크
 
 [Kaggle 리더보드](https://www.kaggle.com/competitions/connectx/submissions?dialog=episodes)
 
@@ -199,4 +203,3 @@ ANSI 렌더링에서 `1` 또는 `2`가 내 돌입니다.
 
 * ⚙ AlphaZero MCTS 계열 고도화: Balanced/Aggressive/Connectivity/Gap 버전 통합 및 self-play 학습 검토
 * ⚙ DQN 파이프라인 확장: 더블/듀얼링/가중치 내장 자동화와 학습 로그 시각화 추가
-* ⚙ Kaggle 운영 지원: 자동 벤치마크 스크립트와 submission 빌더 개선, Leaderboard 성능 추적 자동화
