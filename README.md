@@ -29,7 +29,10 @@
 # 1. 가상환경 생성
 python -m venv .venv
 
-# 2. 필수 패키지 설치
+# 2. 가상환겨아 실행
+venv\Scripts\activate.bat
+
+# 3. 필수 패키지 설치
 pip install -r requirements.txt
 pip install -r requirements_kaggle.txt  # 의존성 문제로 별도 설치
 ```
@@ -105,6 +108,8 @@ ConnectX 강화를 위한 실험 환경과 문서를 동시에 제공하기 위�
 - `drl_double.py`: Double DQN (가중치 안정화)
 - `drl_dueling.py`: Dueling DQN (가치/이득 분리)
 - 각 `.pth` 가중치 및 상태 스냅샷 포함
+
+> **참고**: `drl_dqn.py`/`drl_double.py`/`drl_dueling.py`를 학습 모드로 실행하면 같은 폴더에 `drl_dqn_weights.pth`, `drl_double_weights.pth`, `drl_dueling_weights.pth`가 생성됩니다(제출용 `.py`와 함께 버전에 맞춰 커밋됨).
 
 ### Kaggle 제출용 (`src/submission_files/`)
 
