@@ -26,15 +26,15 @@
 ### 환경 설정
 
 ```bash
+# python 3.11 기준
 # 1. 가상환경 생성
 python -m venv .venv
 
 # 2. 가상환겨아 실행
-venv\Scripts\activate.bat
+.venv\Scripts\activate.bat
 
 # 3. 필수 패키지 설치
 pip install -r requirements.txt
-pip install -r requirements_kaggle.txt  # 의존성 문제로 별도 설치
 ```
 
 ### 에이전트 테스트
