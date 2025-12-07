@@ -35,7 +35,7 @@
 - Double DQN은 강제 승 활용도는 최고지만 방어가 약해 DQN에게 전패
 - 기본 DQN은 차단률은 준수하나 강제 승 생성력이 낮아 전체 승률이 가장 나쁨
 - Dueling은 double에게는 지지만 DQN은 이김. 공격 성공률 개선이 최우선
-- **결론**: 현재 가중치 기준으로 Double > Dueling > DQN 순이나, Double DQN의 수비를 강화해야 실전 투입 가능
+- **결론**: 현재 가중치 기준으로 Double > Dueling > DQN 순으로, Double DQN을 선택
 
 ## 5. 시각화
 - plots/forced_rates.png: 강제 승/차단 비율 비교
