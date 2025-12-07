@@ -30,8 +30,8 @@
 # 1. 가상환경 생성
 python -m venv .venv
 
-# 2. 가상환겨아 실행
-.venv\Scripts\activate.bat
+# 2. 가상환경 실행
+venv\Scripts\activate.bat
 
 # 3. 필수 패키지 설치
 pip install -r requirements.txt
