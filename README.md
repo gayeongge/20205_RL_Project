@@ -38,7 +38,7 @@ python -m venv .venv
 
 # 3. 필수 패키지 설치
 pip install -r requirements.txt
-pip install --no-deps kaggle-environments==1.11.1, jsonschema, attrs
+pip install --no-deps kaggle-environments==1.11.1 jsonschema, attrs
 ```
 
 ### 에이전트 테스트
