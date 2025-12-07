@@ -214,7 +214,7 @@ python src/make_submission.py
 
 ## 📈 Kaggle Leaderboard 추적
 
-[Kaggle 리더보드 링크](https://www.kaggle.com/competitions/connectx/submissions?dialog=episodes)
+[Kaggle 리더보드 링크](https://www.kaggle.com/competitions/connectx/leaderboard?search=Gayeongzero)
 
 현재 제출된 에이전트는 **MTDF 전략의 최신 버전**입니다. "에이전트" 버튼을 클릭하면 대회 참가자들 간 자동 리그에서 각 에이전트의 성과를 지속적으로 확인할 수 있습니다.
 
