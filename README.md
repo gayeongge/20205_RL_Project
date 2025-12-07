@@ -243,7 +243,7 @@ python src/make_submission.py
 | **탐색 속도 너무 느림** | Alpha-beta 가지치기 없이 모든 노드 방문 | (현재 기본/제출 버전은 동일한 3수 minimax 흐름) → 향후 Alpha-beta + 이동 정렬 도입 예정 |
 | **동일 보드 상태 중복 계산** | 전이표(해시테이블) 없어 같은 상황 재계산 | ⚠️ **추후 개선 필요**: Zobrist 해싱 + 전이표 도입 고려 |
 
-**알고리즘 진화**: O(열수, `simple_greedy_baseline`) → O(분기^깊이, `minimax_basic_search` / `submission_n_step_lookahead`)
+**알고리즘 진화**: O(열수, `simple_greedy_baseline`) → O(분기^깊이, `minimax_basic_search` / `submission_n_step_lookahead` : 동일한 코드)
 
 ### 🧠 DQN 계열 (`src/DQN/`)
 
