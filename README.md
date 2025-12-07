@@ -4,7 +4,7 @@
 >
 > **프로젝트 인원**: A72066 이가영, A72076 이현지
 >
-> **프로젝트 PPT** : 강화학습의 기초_4조_PPT_A72066 이가영,A72076 이현지.pptx 
+> **프로젝트 PPT** : [강화학습의 기초_4조_PPT_A72066 이가영,A72076 이현지.pptx](https://github.com/gayeongge/2025_RL_Project/blob/main/%EA%B0%95%ED%99%94%ED%95%99%EC%8A%B5%EC%9D%98%EA%B8%B0%EC%B4%88_4%EC%A1%B0_PPT_A72066%20%EC%9D%B4%EA%B0%80%EC%98%81%2C%20A72076%20%EC%9D%B4%ED%98%84%EC%A7%80.pptx)
 
 ---
 
@@ -214,7 +214,7 @@ python src/make_submission.py
 
 ## 📈 Kaggle Leaderboard 추적
 
-[Kaggle 리더보드 링크](https://www.kaggle.com/competitions/connectx/submissions?dialog=episodes)
+[Kaggle 리더보드 링크](https://www.kaggle.com/competitions/connectx/leaderboard?search=Gayeongzero)
 
 현재 제출된 에이전트는 **MTDF 전략의 최신 버전**입니다. "에이전트" 버튼을 클릭하면 대회 참가자들 간 자동 리그에서 각 에이전트의 성과를 지속적으로 확인할 수 있습니다.
 
